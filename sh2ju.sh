@@ -90,8 +90,8 @@ juLog() {
   done
 
   # eval the command sending output to a file
-  outf=/var/tmp/ju$$.txt
-  errf=/var/tmp/ju$$-err.txt
+  outf=/tmp/ju$$.txt
+  errf=/tmp/ju$$-err.txt
   >$outf
   echo ""                         | tee -a $outf
   echo "+++ Running case: $class.$name " | tee -a $outf
