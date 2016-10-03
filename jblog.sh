@@ -38,11 +38,12 @@ jbLogEquals() {
   error_count=0
 
   # parse arguments
-  ya=""; icase=""
+  ya=""; icase=""; passon="eq"
   while [ -z "$ya" ]; do
     case "$1" in
       -name=*)   name=`echo "$1" | sed -e 's/-name=//'`;   shift;;
       -class=*)  class=`echo "$1" | sed -e 's/-class=//'`;   shift;;
+      -passon=*)  class=`echo "$1" | sed -e 's/-passon=//'`;   shift;;
       *)         ya=1;;
     esac
   done
@@ -75,14 +76,18 @@ jbLogEquals() {
   # echo "+++ working dir: "`pwd`
 
   ini=`$date +%s`
-  if [[ "$a" == "$b" ]]; then
+  if [[ "$a" == "$b" ]] && [[ "$passon" == "eq" ]]; then
     err=0
     outMsg="$a == $b"
+    errMsg=""
+  elif [[ "$a" != "$b" ]] && [[ "$passon" == "neq" ]]; then
+    err=0
+    outMsg="$a != $b"
     errMsg=""
   else
     err=1
     outMsg=""
-    errMsg="$a != $b"
+    errMsg="$a <=> $b"
   fi
   end=`$date +%s`
   
