@@ -43,7 +43,7 @@ jbLogEquals() {
     case "$1" in
       -name=*)   name=`echo "$1" | sed -e 's/-name=//'`;   shift;;
       -class=*)  class=`echo "$1" | sed -e 's/-class=//'`;   shift;;
-      -passon=*)  class=`echo "$1" | sed -e 's/-passon=//'`;   shift;;
+      -passon=*)  passon=`echo "$1" | sed -e 's/-passon=//'`;   shift;;
       *)         ya=1;;
     esac
   done
