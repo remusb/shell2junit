@@ -87,7 +87,7 @@ jbLogEquals() {
   else
     err=1
     outMsg=""
-    errMsg="$a <=> $b"
+    errMsg="$a $passon $b"
   fi
   end=`$date +%s`
   
