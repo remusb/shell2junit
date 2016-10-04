@@ -232,7 +232,7 @@ jbLogEval() {
 
   # echo "+++ Running case: $class.$name "
   # echo "+++ working dir: "`pwd`
-  # echo "+++ command: $cmd"
+  echo "+++ command: $cmd"
 
   # execute the command
   revert_error=false
