@@ -250,8 +250,8 @@ jbLogEval() {
     set -e
   fi
   
-  sed -r -e "s/\x1B\[[0-9]+m//g" -i $errf
-  sed -r -e "s/\x1B\[[0-9]+m//g" -i $outf
+  sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" -i $errf
+  sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" -i $outf
   errMsg="$(cat $errf)"
   outMsg="$(cat $outf)"
   rm -f $outf
