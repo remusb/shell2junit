@@ -31,6 +31,81 @@ jbLogClean() {
   rm -f "$resDir"/*.xml
 }
 
+jbLogContains() {
+  suite=""
+  name=""
+  class=""
+  error_count=0
+
+  # parse arguments
+  ya=""; icase=""; passon="eq"
+  while [ -z "$ya" ]; do
+    case "$1" in
+      -name=*)   name=`echo "$1" | sed -e 's/-name=//'`;   shift;;
+      -class=*)  class=`echo "$1" | sed -e 's/-class=//'`;   shift;;
+      -passon=*)  passon=`echo "$1" | sed -e 's/-passon=//'`;   shift;;
+      *)         ya=1;;
+    esac
+  done
+
+  # use first arg as name if it was not given
+  if [ -z "$name" ]; then
+    name="00-$1"
+    shift
+  fi
+
+  if [[ "$class" = "" ]]; then
+    class="default"
+  fi
+
+  suite=$class
+  
+  # echo "name is: $name"
+  # echo "class is: $class"
+
+  # calculate command to eval
+  [ -z "$1" ] && return
+  a="$1";
+  b="$2";
+
+  # eval the command sending output to a file
+  outf=/tmp/junit$$.txt
+  errf=/tmp/junit$$-err.txt
+
+  # echo "+++ Running case: $class.$name "
+  # echo "+++ working dir: "`pwd`
+
+  ini=`$date +%s`
+  if [[ "$a" == *"$b"* ]] && [[ "$passon" == "eq" ]]; then
+    err=0
+    outMsg="$a == *$b*"
+    errMsg=""
+  elif [[ "$a" != *"$b"* ]] && [[ "$passon" == "neq" ]]; then
+    err=0
+    outMsg="$a != *$b*"
+    errMsg=""
+  else
+    err=1
+    outMsg=""
+    errMsg="$a $passon *$b*"
+  fi
+  end=`$date +%s`
+  
+  # echo "+++ exit code: $err"
+
+  # calculate vars
+  spent=$(($end-$ini))
+  total=spent
+  asserts=1
+  error_count=0
+
+  if [[ $err > 0 ]]; then
+    error_count=1
+  fi
+
+  jbLogWrite "$suite" "$name" "$class" "$outMsg" "$errMsg" $err $spent $error_count
+}
+
 jbLogEquals() {
   suite=""
   name=""
